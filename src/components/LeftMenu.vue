@@ -1,5 +1,5 @@
 <template>
-    <el-menu default-active="/sys/user" :router="true">
+    <el-menu default-active="/sys/user" :router="true" class="border border-black border-r-0 h-[calc(100vh-60px)]">
         <el-sub-menu index="/sys">
             <template #title>
                 <el-icon>
