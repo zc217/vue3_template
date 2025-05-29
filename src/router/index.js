@@ -3,6 +3,7 @@ import { createWebHistory, createRouter } from 'vue-router'
 import Login from '@/views/Login.vue'
 import Home from '@/views/Home.vue'
 import SysUser from '@/views/sys/user/Index.vue'
+import Welcome from '@/views/Welcome.vue'
 import SysRole from '@/views/sys/role/Index.vue'
 import SysPerm from '@/views/sys/perm/Index.vue'
 import SysDept from '@/views/sys/dept/Index.vue'
@@ -16,7 +17,12 @@ const routes = [
     { 
         path: '/home', 
         component: Home,
+        redirect: '/welcome',
         children:[
+            {
+                path: '/welcome',
+                component: Welcome
+            },
             {
                 path:'/sys/user',
                 component: SysUser

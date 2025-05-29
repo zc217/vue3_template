@@ -1,76 +1,52 @@
 <template>
-    <el-menu default-active="/sys/user" :router="true" class="border border-black border-r-0 h-[calc(100vh-60px)]">
-        <el-sub-menu index="/sys">
-            <template #title>
-                <el-icon>
-                    <Setting />
-                </el-icon>
-                <span>系统管理</span>
-            </template>
-            <el-menu-item index="/sys/user">
-                <template #title>
-                    <el-icon>
-                        <User />
-                    </el-icon>
-                    <span>用户管理</span>
-                </template>
-            </el-menu-item>
-            <el-menu-item index="/sys/role">
-                <template #title>
-                    <el-icon>
-                        <UserFilled />
-                    </el-icon>
-                    <span>角色管理</span>
-                </template>
-            </el-menu-item>
-            <el-menu-item index="/sys/perm">
-                <template #title>
-                    <el-icon>
-                        <Link />
-                    </el-icon>
-                    <span> 权限管理</span>
-                </template>
-            </el-menu-item>
-            <el-menu-item index="/sys/dept">
-                <template #title>
-                    <el-icon>
-                        <Female />
-                    </el-icon>
-                    <span>部门管理</span>
-                </template>
-            </el-menu-item>
-            <el-menu-item index="/sys/post">
-                <template #title>
-                    <el-icon>
-                        <CirclePlus />
-                    </el-icon>
-                    <span>岗位管理</span>
-                </template>
-            </el-menu-item>
-            <el-sub-menu index="/sys/log">
-                <template #title>
-                    <el-icon>
-                        <Pointer />
-                    </el-icon>
-                    <span>日志管理</span>
-                </template>
-                <el-menu-item index="/sys/log/login">
-                    <template #title>
-                        <el-icon>
-                            <Clock />
-                        </el-icon>
-                        <span>登录日志管理</span>
-                    </template>
-                </el-menu-item>
-                <el-menu-item index="/sys/log/operation">
-                    <template #title>
-                        <el-icon>
-                            <ChatDotSquare />
-                        </el-icon>
-                        <span>操作日志管理</span>
-                    </template>
-                </el-menu-item>
-            </el-sub-menu>
-        </el-sub-menu>
+    <el-menu :default-active="currentActiveMenu" :router="true" class="border border-black border-r-0 h-[calc(100vh-60px)]">
+        <MenuItem v-for="item in menuData" :key="item.path" :item="item" />
     </el-menu>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+import MenuItem from '@/components/MenuItem.vue' // 引入递归组件
+
+// 使用 icon 的字符串名称
+const menuData = ref([
+    {
+        path: '/welcome',
+        title: '首页',
+        icon: 'Home',
+        type: 2,
+        children: []
+    },
+    {
+        path: '/sys',
+        title: '系统管理',
+        icon: 'Setting',
+        type: 1,
+        children: [
+            { path: '/sys/user', title: '用户管理', type: 2, icon: 'User' },
+            { path: '/sys/role', title: '角色管理', type: 2, icon: 'UserFilled' },
+            { path: '/sys/perm', title: '权限管理', type: 2, icon: 'Link' },
+            { path: '/sys/dept', title: '部门管理', type: 2, icon: 'Female' },
+            { path: '/sys/post', title: '岗位管理', type: 2, icon: 'CirclePlus' },
+            {
+                path: '/sys/log',
+                title: '日志管理',
+                icon: 'Pointer',
+                type: 1,
+                children: [
+                    { path: '/sys/log/login', title: '登录日志管理', type: 2, icon: 'Clock' },
+                    { path: '/sys/log/operation', title: '操作日志管理', type: 2, icon: 'ChatDotSquare' }
+                ]
+            }
+        ]
+    }
+])
+
+const currentActiveMenu = localStorage.getItem("currentMenu") ? localStorage.getItem("currentMenu") : "/welcome"
+</script>
+
+<style scoped>
+.el-header {
+    padding: 0;
+}
+</style>

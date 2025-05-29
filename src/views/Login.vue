@@ -23,7 +23,7 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
-import axios from 'axios'
+import http from '@/axios/index.js'
 import router from '@/router/index.js'
 
 const ruleFormRef = ref()
@@ -42,17 +42,28 @@ const rules = reactive({
     ]
 })
 const login = async () => {
-    ruleFormRef.value.validate((valid, fields) => {
-        if (valid) {
-            //调用登录接口
-            axios.post('/api/login',formData).then(res=>{
-                console.log("res",res)
-                if(res.data.code==200){
-                    router.push('/home')
-                    localStorage.setItem("token",res.data.data)
-                }
-            })
-        }
-    })
+
+    const valid = await ruleFormRef.value.validate()
+    if (valid) {
+        const res = await http.post('/login', formData)
+        router.push('home')
+        localStorage.setItem("token", res.data)
+        localStorage.setItem("currentMenu", "/welcome")
+    }
+
+
+    // ruleFormRef.value.validate((valid, fields) => {
+    //     if (valid) {
+
+    //         const res = await http.post('/login', formData)
+    //         console.log("res",res)
+    //调用登录接口
+    // http.post('/login',formData).then(res=>{
+    //     console.log("res",res)
+    //     if(res.data.code==200){
+    //         router.push('/home')
+    //         localStorage.setItem("token",res.data.data)
+    //     }
+    // })
 }
 </script>
