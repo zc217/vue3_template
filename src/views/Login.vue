@@ -46,9 +46,12 @@ const login = async () => {
     const valid = await ruleFormRef.value.validate()
     if (valid) {
         const res = await http.post('/login', formData)
-        router.push('home')
-        localStorage.setItem("token", res.data)
-        localStorage.setItem("currentMenu", "/welcome")
+        if (res.code == 200) {
+            router.push('home')
+            localStorage.setItem("token", res.data)
+            localStorage.setItem("currentMenu", "/welcome")
+        }
+
     }
 
 

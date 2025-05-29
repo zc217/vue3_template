@@ -6,7 +6,7 @@
             </p>
         </div>
         <div class="right-div mr-[20px]">
-            {{currentUserRealName}}
+            {{ currentUserRealName }}
             <el-dropdown @command="handleCommand">
                 <span class="el-dropdown-link">
                     <el-icon class="el-icon--right">
@@ -26,16 +26,24 @@
 
 <script setup>
 import { ElMessage } from 'element-plus';
+import router from '@/router/index.js'
+import http from '@/axios/index.js'
 
 const props = defineProps({
     currentUserRealName: String
 })
 
-const handleCommand = (command) => {
-    if (command == 'openRePasswordPage'){
+const handleCommand = async (command) => {
+    if (command == 'openRePasswordPage') {
         ElMessage('打开修改密码弹框')
-    } else if (command == 'logout'){
-        ElMessage('退出登录')
+    } else if (command == 'logout') {
+        const res = await http.get('/logout')
+        if (res.code == 200) {
+            // ElMessage('退出登录')
+            localStorage.clear();
+            router.push('/login')
+        }
+
     }
 }
 
