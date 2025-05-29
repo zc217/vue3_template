@@ -6,7 +6,7 @@
             </p>
         </div>
         <div class="right-div mr-[20px]">
-            当前用户
+            {{currentUserRealName}}
             <el-dropdown @command="handleCommand">
                 <span class="el-dropdown-link">
                     <el-icon class="el-icon--right">
@@ -26,6 +26,10 @@
 
 <script setup>
 import { ElMessage } from 'element-plus';
+
+const props = defineProps({
+    currentUserRealName: String
+})
 
 const handleCommand = (command) => {
     if (command == 'openRePasswordPage'){

@@ -1,7 +1,7 @@
 <template>
     <el-container>
         <el-header>
-            <Header />
+            <Header :currentUserRealName="currentUserRealName"/>
         </el-header>
         <el-container>
             <el-aside width="200px">
@@ -17,9 +17,25 @@
 <script setup>
 import LeftMenu from '@/components/LeftMenu.vue'
 import Header from '@/components/Header.vue'
+import { onMounted,ref } from 'vue'
+import axios from 'axios'
+const currentUserRealName = ref('')
+
+onMounted(() => {
+    axios.get('/api/home', {
+        headers:{
+            token: localStorage.getItem("token")
+        }
+    }).then(res=>{
+            if(res.data.code == 200){
+                currentUserRealName.value = res.data.data.realName
+            }
+    })
+})
+
 </script>
 
-<style>
+<style s>
 .el-header{
     padding: 0;
 }
